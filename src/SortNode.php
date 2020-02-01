@@ -4,19 +4,19 @@
 namespace MKrawczyk\FunQuery;
 
 
-class SortNode extends PipelineNode
+class SortNode extends FunQuery
 {
     /**
-     * @var PipelineNode
+     * @var FunQuery
      */
-    private PipelineNode $source;
+    private FunQuery $source;
     /**
      * @var callable
      */
     private $fun;
     private $result = null;
 
-    public function __construct(PipelineNode $source, callable $fun)
+    public function __construct(FunQuery $source, callable $fun)
     {
         $this->source = $source;
         $this->fun = $fun;

@@ -2,7 +2,7 @@
 
 
 use MKrawczyk\FunQuery\IteratorAggregateNode;
-use MKrawczyk\FunQuery\PipelineNode;
+use MKrawczyk\FunQuery\FunQuery;
 use PHPUnit\Framework\TestCase;
 
 class myData implements IteratorAggregate
@@ -36,7 +36,7 @@ class IteratorAggregateNodeTest extends TestCase
     public function testFactory()
     {
         $iterable = (new myData());
-        $node = PipelineNode::create($iterable);
+        $node = FunQuery::create($iterable);
         $expect = ["one", "two", "three", "four"];
         $this->assertEqualsCanonicalizing($expect, $node->toArray());
     }

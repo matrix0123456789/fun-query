@@ -1,7 +1,7 @@
 <?php
 
 use MKrawczyk\FunQuery\ArrayNode;
-use MKrawczyk\FunQuery\PipelineNode;
+use MKrawczyk\FunQuery\FunQuery;
 
 include_once __DIR__.'/../vendor/autoload.php';
 
@@ -29,7 +29,7 @@ class ArrayNodeTest extends PHPUnit\Framework\TestCase
     public function testFactoryConstruct()
     {
         $init = ['test', 'array', 'for', 'constructor'];
-        $obj = PipelineNode::create($init);
+        $obj = FunQuery::create($init);
         $this->assertInstanceOf(ArrayNode::class, $obj);
     }
 }

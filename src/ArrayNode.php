@@ -2,7 +2,7 @@
 
 namespace MKrawczyk\FunQuery;
 
-class ArrayNode extends PipelineNode
+class ArrayNode extends FunQuery
 {
     /**
      * @var array

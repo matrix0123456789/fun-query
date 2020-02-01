@@ -5,7 +5,7 @@ namespace MKrawczyk\FunQuery;
 
 use IteratorAggregate;
 
-class IteratorAggregateNode extends PipelineNode
+class IteratorAggregateNode extends FunQuery
 {
     /**
      * @var IteratorAggregate

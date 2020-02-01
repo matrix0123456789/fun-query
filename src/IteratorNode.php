@@ -5,7 +5,7 @@ namespace MKrawczyk\FunQuery;
 
 use Iterator;
 
-class IteratorNode extends PipelineNode
+class IteratorNode extends FunQuery
 {
     /**
      * @var Iterator

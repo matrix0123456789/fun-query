@@ -2,10 +2,10 @@
 
 namespace MKrawczyk\FunQuery;
 
-abstract class PipelineNode implements \IteratorAggregate
+abstract class FunQuery implements \IteratorAggregate
 {
 
-    public static function create($init) : PipelineNode
+    public static function create($init) : FunQuery
     {
         if (is_array($init)) {
             return new ArrayNode($init);

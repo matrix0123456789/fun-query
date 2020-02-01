@@ -7,18 +7,18 @@ namespace MKrawczyk\FunQuery;
 use Exception;
 use Traversable;
 
-class MapNode extends PipelineNode
+class MapNode extends FunQuery
 {
     /**
-     * @var PipelineNode
+     * @var FunQuery
      */
-    private PipelineNode $source;
+    private FunQuery $source;
     /**
      * @var callable
      */
     private $fun;
 
-    public function __construct(PipelineNode $source, callable $fun)
+    public function __construct(FunQuery $source, callable $fun)
     {
         $this->source = $source;
         $this->fun = $fun;

@@ -2,7 +2,7 @@
 
 
 use MKrawczyk\FunQuery\IteratorNode;
-use MKrawczyk\FunQuery\PipelineNode;
+use MKrawczyk\FunQuery\FunQuery;
 use PHPUnit\Framework\TestCase;
 
 class IteratorNodeTest extends TestCase
@@ -17,7 +17,7 @@ class IteratorNodeTest extends TestCase
     public function testFactory()
 {
     $generator = $this->generator();
-    $node = PipelineNode::create($generator);
+    $node = FunQuery::create($generator);
     $expect=[1,2,3];
     $this->assertEqualsCanonicalizing($expect, $node->toArray());
 }

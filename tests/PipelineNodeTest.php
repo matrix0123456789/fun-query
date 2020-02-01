@@ -1,7 +1,7 @@
 <?php
 
 
-use MKrawczyk\FunQuery\PipelineNode;
+use MKrawczyk\FunQuery\FunQuery;
 use PHPUnit\Framework\TestCase;
 
 class PipelineNodeTest extends TestCase
@@ -16,7 +16,7 @@ class PipelineNodeTest extends TestCase
         ];
         $wanted = ['cat', 'dog'];
 
-        $fourLegsAlphabetically = PipelineNode::create($data)->filter(fn($x) => $x->legs === 4)->sort(fn($x) => $x->kind)->map(fn($x) => $x->kind)->toArray();
+        $fourLegsAlphabetically = FunQuery::create($data)->filter(fn($x) => $x->legs === 4)->sort(fn($x) => $x->kind)->map(fn($x) => $x->kind)->toArray();
         $this->assertEqualsCanonicalizing($wanted, $fourLegsAlphabetically);
     }
 }
