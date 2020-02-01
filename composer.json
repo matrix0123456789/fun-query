@@ -1,0 +1,23 @@
+{
+    "name": "mkrawczyk/funquery",
+    "authors": [
+        {
+            "name": "Mateusz Krawczyk"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=7.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "MKrawczyk\\FunQuery\\": "src/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

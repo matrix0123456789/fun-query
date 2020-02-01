@@ -1,0 +1,27 @@
+<?php
+
+
+namespace MKrawczyk\FunQuery;
+
+use IteratorAggregate;
+
+class IteratorAggregateNode extends PipelineNode
+{
+    /**
+     * @var IteratorAggregate
+     */
+    private IteratorAggregate $source;
+
+    public function __construct(IteratorAggregate $source)
+    {
+        $this->source = $source;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getIterator()
+    {
+        return $this->source->getIterator();
+    }
+}
