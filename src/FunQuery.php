@@ -2,7 +2,7 @@
 
 namespace MKrawczyk\FunQuery;
 
-abstract class FunQuery implements \IteratorAggregate
+abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
 {
 
     public static function create($init) : FunQuery
@@ -40,5 +40,8 @@ abstract class FunQuery implements \IteratorAggregate
     public function map(callable $fun)
     {
         return new MapNode($this, $fun);
+    }
+    public function jsonSerialize(){
+        return $this->toArray();
     }
 }

@@ -19,4 +19,13 @@ class PipelineNodeTest extends TestCase
         $fourLegsAlphabetically = FunQuery::create($data)->filter(fn($x) => $x->legs === 4)->sort(fn($x) => $x->kind)->map(fn($x) => $x->kind)->toArray();
         $this->assertEqualsCanonicalizing($wanted, $fourLegsAlphabetically);
     }
+
+    public function testJson()
+    {
+        $original = ['string', 999, false, true, null];
+        $obj = FunQuery::create($original)->filter(fn() => true);
+        $originalJson = json_encode($original);
+        $resultJson = json_encode($obj);
+        $this->assertEquals($originalJson, $resultJson);
+    }
 }
