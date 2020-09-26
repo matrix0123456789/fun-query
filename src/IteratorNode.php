@@ -7,9 +7,6 @@ use Iterator;
 
 class IteratorNode extends FunQuery
 {
-    /**
-     * @var Iterator
-     */
     private Iterator $source;
     private array $content = [];
     private bool $completed = false;
@@ -33,9 +30,6 @@ class IteratorNode extends FunQuery
         return $this->content[$position];
     }
 
-    /**
-     * @param int $position
-     */
     private function read(int $position): void
     {
         while (!$this->completed && count($this->content) <= $position) {

@@ -5,7 +5,7 @@ namespace MKrawczyk\FunQuery;
 abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
 {
 
-    public static function create($init) : FunQuery
+    public static function create($init): FunQuery
     {
         if (is_array($init)) {
             return new ArrayNode($init);
@@ -16,15 +16,6 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         } else {
             throw new \InvalidArgumentException("Source has invalid type.");
         }
-    }
-
-    public function toArray(): array
-    {
-        $result = [];
-        foreach ($this as $element) {
-            $result[] = $element;
-        }
-        return $result;
     }
 
     public function filter(callable $fun)
@@ -41,7 +32,27 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new MapNode($this, $fun);
     }
-    public function jsonSerialize(){
+
+    public function jsonSerialize()
+    {
         return $this->toArray();
+    }
+
+    public function toArray(): array
+    {
+        $result = [];
+        foreach ($this as $element) {
+            $result[] = $element;
+        }
+        return $result;
+    }
+
+    public function some(?callable $fun = null)
+    {
+        foreach ($this as $item) {
+            if ($fun === null || $fun($item))
+                return true;
+        }
+        return false;
     }
 }

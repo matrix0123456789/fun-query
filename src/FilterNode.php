@@ -9,9 +9,6 @@ use Traversable;
 
 class FilterNode extends FunQuery
 {
-    /**
-     * @var FunQuery
-     */
     private FunQuery $source;
     /**
      * @var callable
