@@ -33,6 +33,21 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return new MapNode($this, $fun);
     }
 
+    public function slice(int $skip = 0, ?int $limit = null)
+    {
+        return new SliceNode($this, $skip, $limit);
+    }
+
+    public function skip(int $skip = 0)
+    {
+        return new SliceNode($this, $skip);
+    }
+
+    public function limit(?int $limit = null)
+    {
+        return new SliceNode($this, 0, $limit);
+    }
+
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -54,5 +69,19 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
                 return true;
         }
         return false;
+    }
+    public function first(?callable $fun = null){
+        foreach ($this as $item) {
+            if ($fun === null || $fun($item))
+                return $item;
+        }
+        throw new \Exception("Zero items");
+    }
+    public function firstOrNull(?callable $fun = null){
+        foreach ($this as $item) {
+            if ($fun === null || $fun($item))
+                return $item;
+        }
+        return null;
     }
 }
