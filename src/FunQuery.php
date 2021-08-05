@@ -84,4 +84,16 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         }
         return null;
     }
+    public function __debugInfo()
+    {
+       return $this->toArray();
+    }
+
+    public function each(callable $fun)
+    {
+        foreach ($this as $x){
+            $fun($x);
+        }
+        return $this;
+    }
 }

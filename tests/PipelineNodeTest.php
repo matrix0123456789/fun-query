@@ -67,11 +67,22 @@ class PipelineNodeTest extends TestCase
         $resultJson = json_encode($result);
         $this->assertEquals($wantedJson, $resultJson);
     }
+
     public function testGenerator()
     {
-        $wanted = [0,2,4,6,8,10,12,14,16,18];
-        $result=FunQuery::create($this->generator())->filter(fn($x)=>$x%2==0)->limit(10)->toArray();
+        $wanted = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18];
+        $result = FunQuery::create($this->generator())->filter(fn($x) => $x % 2 == 0)->limit(10)->toArray();
         $this->assertEquals($wanted, $result);
+    }
+
+    public function testEach()
+    {
+        $array = [new stdClass(), new stdClass(), new stdClass()];
+        $i = random_int(1, 1000);
+        FunQuery::create($array)->each(fn($x) => $x->a = $i)->skip(1)->limit(1)->each(fn($x) => $x->a = 0);
+        $this->assertEquals($i, $array[0]->a);
+        $this->assertEquals(0, $array[1]->a);
+        $this->assertEquals($i, $array[2]->a);
     }
 
     private function generator()
