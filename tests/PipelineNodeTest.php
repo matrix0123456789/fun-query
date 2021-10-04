@@ -85,6 +85,16 @@ class PipelineNodeTest extends TestCase
         $this->assertEquals($i, $array[2]->a);
     }
 
+    public function testFlat()
+    {
+        $wanted = [0, 1, 2, 'string', 'string2'];
+        $input = [];
+        $input[] = FunQuery::create($this->generator())->limit(3);
+        $input[] = ['string', 'string2'];
+        $result = FunQuery::create($input)->flat()->toArray();
+        $this->assertEquals($wanted, $result);
+    }
+
     private function generator()
     {
         for ($i = 0; ; $i++) {

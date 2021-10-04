@@ -48,6 +48,16 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return new SliceNode($this, 0, $limit);
     }
 
+    public function flat()
+    {
+        return new FlatNode($this);
+    }
+
+    public function flatMap(callable $fun)
+    {
+        return new FlatNode(new MapNode($this, $fun));
+    }
+
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -70,28 +80,33 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         }
         return false;
     }
-    public function first(?callable $fun = null){
+
+    public function first(?callable $fun = null)
+    {
         foreach ($this as $item) {
             if ($fun === null || $fun($item))
                 return $item;
         }
         throw new \Exception("Zero items");
     }
-    public function firstOrNull(?callable $fun = null){
+
+    public function firstOrNull(?callable $fun = null)
+    {
         foreach ($this as $item) {
             if ($fun === null || $fun($item))
                 return $item;
         }
         return null;
     }
+
     public function __debugInfo()
     {
-       return $this->toArray();
+        return $this->toArray();
     }
 
     public function each(callable $fun)
     {
-        foreach ($this as $x){
+        foreach ($this as $x) {
             $fun($x);
         }
         return $this;
