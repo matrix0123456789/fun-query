@@ -2,6 +2,8 @@
 
 namespace MKrawczyk\FunQuery;
 
+use MKrawczyk\FunQuery\Exceptions\FunQueryException;
+
 abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
 {
 
@@ -110,5 +112,34 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
             $fun($x);
         }
         return $this;
+    }
+
+    public function count(): int
+    {
+        $ret = 0;
+        $iterator = $this->getIterator();
+        while ($iterator->valid()) {
+            $ret++;
+            $iterator->next();
+        }
+        return $ret;
+    }
+
+    public function reduce(callable $fun, ...$init)
+    {
+        $iterator = $this->getIterator();
+        if (isset($init[0])) {
+            $value = $init[0];
+        } else if ($iterator->valid()) {
+            $value = $iterator->current();
+            $iterator->next();
+        } else {
+            throw new FunQueryException("No items to reduce, empty input.");
+        }
+        while ($iterator->valid()) {
+            $value = $fun($value, $iterator->current());
+            $iterator->next();
+        }
+        return $value;
     }
 }

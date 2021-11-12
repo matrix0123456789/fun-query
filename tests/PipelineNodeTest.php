@@ -75,6 +75,17 @@ class PipelineNodeTest extends TestCase
         $this->assertEquals($wanted, $result);
     }
 
+    public function testGeneratorMultiplePasses()
+    {
+        $wanted1 = [0, 1, 2, 3];
+        $wanted2 = [0, 1];
+        $obj = FunQuery::create($this->generator());
+        $result1 = $obj->limit(4)->toArray();
+        $result2 = $obj->limit(2)->toArray();
+        $this->assertEquals($wanted1, $result1);
+        $this->assertEquals($wanted2, $result2);
+    }
+
     public function testEach()
     {
         $array = [new stdClass(), new stdClass(), new stdClass()];
@@ -101,4 +112,58 @@ class PipelineNodeTest extends TestCase
             yield $i;
         }
     }
+
+    public function testCount()
+    {
+        $input = ['a', 'b', 'v'];
+        $result = FunQuery::create($input)->count();
+        $this->assertEquals(3, $result);
+    }
+
+    public function testCountGenerator()
+    {
+        $result = FunQuery::create($this->generator())->limit(20)->count();
+        $this->assertEquals(20, $result);
+    }
+
+    public function testReduce()
+    {
+        $input = ['a', 'b', 'c', 'd'];
+        $result = FunQuery::create($input)->reduce(fn($a, $x) => $a . $x);
+        $this->assertEquals('abcd', $result);
+    }
+
+    public function testReduceWithInit()
+    {
+        $input = ['a', 'b', 'c', 'd'];
+        $result = FunQuery::create($input)->reduce(fn($a, $x) => $a . $x, '012');
+        $this->assertEquals('012abcd', $result);
+    }
+
+    public function testReduceEmpty()
+    {
+        $this->expectException("MKrawczyk\FunQuery\Exceptions\FunQueryException");
+        $this->expectExceptionMessage("No items to reduce, empty input.");
+        $result = FunQuery::create([])->reduce(fn($a, $x) => $a . $x);
+    }
+
+    public function testReduceEmptyWithInit()
+    {
+        $init = "init value";
+        $result = FunQuery::create([])->reduce(fn($a, $x) => $a . $x, $init);
+        $this->assertEquals($init, $result);
+    }
+
+    public function testMapOmmited()
+    {
+        $executed = 0;
+        $obj = FunQuery::create($this->generator())->map(function () use (&$executed) {
+            $executed++;
+        })->skip(5)->limit(10);
+        $this->assertEquals(10, $obj->count());
+        $this->assertEquals(0, $executed);
+        $obj->toArray();
+        $this->assertEquals(10, $executed);
+    }
+
 }
