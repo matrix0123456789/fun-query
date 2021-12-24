@@ -165,5 +165,11 @@ class PipelineNodeTest extends TestCase
         $obj->toArray();
         $this->assertEquals(10, $executed);
     }
+    public function testDistinct()
+    {
+        $data=['a','a','b','c','c','a'];
+        $obj=FunQuery::create($data)->distinct();
+        $this->assertEqualsCanonicalizing(['a','b','c'], $obj->toArray());
+    }
 
 }

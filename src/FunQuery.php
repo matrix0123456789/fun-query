@@ -4,9 +4,15 @@ namespace MKrawczyk\FunQuery;
 
 use MKrawczyk\FunQuery\Exceptions\FunQueryException;
 
+/**
+ * @template T
+ */
 abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
 {
-
+    /**
+     * @param $init T[]|\IteratorAggregate<T>|\Iterator<T>
+     * @return FunQuery<T>
+     */
     public static function create($init): FunQuery
     {
         if (is_array($init)) {
@@ -20,11 +26,16 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         }
     }
 
+    /**
+     * @return FunQuery<T>
+     */
     public function filter(callable $fun)
     {
         return new FilterNode($this, $fun);
     }
-
+    /**
+     * @return FunQuery<T>
+     */
     public function sort(callable $fun)
     {
         return new SortNode($this, $fun);
@@ -34,17 +45,23 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new MapNode($this, $fun);
     }
-
+    /**
+     * @return FunQuery<T>
+     */
     public function slice(int $skip = 0, ?int $limit = null)
     {
         return new SliceNode($this, $skip, $limit);
     }
-
+    /**
+     * @return FunQuery<T>
+     */
     public function skip(int $skip = 0)
     {
         return new SliceNode($this, $skip);
     }
-
+    /**
+     * @return FunQuery<T>
+     */
     public function limit(?int $limit = null)
     {
         return new SliceNode($this, 0, $limit);
@@ -53,6 +70,13 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     public function flat()
     {
         return new FlatNode($this);
+    }
+    /**
+     * @return FunQuery<T>
+     */
+    public function distinct()
+    {
+        return new DistinctNode($this);
     }
 
     public function flatMap(callable $fun)
@@ -65,6 +89,9 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return $this->toArray();
     }
 
+    /**
+     * @return T[]
+     */
     public function toArray(): array
     {
         $result = [];
@@ -83,6 +110,9 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return false;
     }
 
+    /**
+     * @return T
+     */
     public function first(?callable $fun = null)
     {
         foreach ($this as $item) {
@@ -92,6 +122,9 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         throw new \Exception("Zero items");
     }
 
+    /**
+     * @return T|null
+     */
     public function firstOrNull(?callable $fun = null)
     {
         foreach ($this as $item) {
