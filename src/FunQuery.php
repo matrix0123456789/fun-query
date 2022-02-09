@@ -33,6 +33,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new FilterNode($this, $fun);
     }
+
     /**
      * @return FunQuery<T>
      */
@@ -45,6 +46,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new MapNode($this, $fun);
     }
+
     /**
      * @return FunQuery<T>
      */
@@ -52,6 +54,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new SliceNode($this, $skip, $limit);
     }
+
     /**
      * @return FunQuery<T>
      */
@@ -59,6 +62,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new SliceNode($this, $skip);
     }
+
     /**
      * @return FunQuery<T>
      */
@@ -71,6 +75,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     {
         return new FlatNode($this);
     }
+
     /**
      * @return FunQuery<T>
      */
@@ -97,6 +102,20 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         $result = [];
         foreach ($this as $element) {
             $result[] = $element;
+        }
+        return $result;
+    }
+
+    public function toAssocArray(callable $keyFun, ?callable $valueFun = null): array
+    {
+        $result = [];
+        foreach ($this as $element) {
+            $key = $keyFun($element);
+            if (isset($result[$key])) {
+                throw new FunQueryException("Duplicated keys");
+            }
+            $value = $valueFun == null ? $element : $valueFun($element);
+            $result[$key] = $value;
         }
         return $result;
     }

@@ -165,11 +165,36 @@ class PipelineNodeTest extends TestCase
         $obj->toArray();
         $this->assertEquals(10, $executed);
     }
+
     public function testDistinct()
     {
-        $data=['a','a','b','c','c','a'];
-        $obj=FunQuery::create($data)->distinct();
-        $this->assertEqualsCanonicalizing(['a','b','c'], $obj->toArray());
+        $data = ['a', 'a', 'b', 'c', 'c', 'a'];
+        $obj = FunQuery::create($data)->distinct();
+        $this->assertEqualsCanonicalizing(['a', 'b', 'c'], $obj->toArray());
+    }
+
+    public function testToAssocArray()
+    {
+        $data = ['a', 'b', 'c'];
+        $wanted = ['a' => 'a', 'b' => 'b', 'c' => 'c'];
+        $result = FunQuery::create($data)->toAssocArray(fn($x) => $x);
+        $this->assertEquals($wanted, $result);
+    }
+
+    public function testToAssocArrayWithMap()
+    {
+        $data = [['a', 'b'], ['c', 'd'], ['e', 'f']];
+        $wanted = ['a' => 'b', 'c' => 'd', 'e' => 'f'];
+        $result = FunQuery::create($data)->toAssocArray(fn($x) => $x[0], fn($x) => $x[1]);
+        $this->assertEquals($wanted, $result);
+    }
+
+    public function testToAssocArrayDuplicate()
+    {
+        $data = [['a', 'b'], ['a', 'c'], ['a', 'd']];
+        $this->expectException("MKrawczyk\FunQuery\Exceptions\FunQueryException");
+        $this->expectExceptionMessage("Duplicated keys");
+        $result = FunQuery::create($data)->toAssocArray(fn($x) => $x[0], fn($x) => $x[1]);
     }
 
 }
