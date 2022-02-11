@@ -26,8 +26,11 @@ class SubMapNode implements \Iterator
      */
     public function current()
     {
-        $fun=$this->fun;
-        return $fun($this->source->current());
+        $fun = $this->fun;
+        if ($this->valid())
+            return $fun($this->source->current());
+        else
+            return null;
     }
 
     /**
