@@ -196,5 +196,13 @@ class PipelineNodeTest extends TestCase
         $this->expectExceptionMessage("Duplicated keys");
         $result = FunQuery::create($data)->toAssocArray(fn($x) => $x[0], fn($x) => $x[1]);
     }
+    public function testFilterSkip()
+    {
+        $data = [1,2,3,4,5,6,7,8];
+        $result1 = FunQuery::create($data)->skip(3)->filter(fn($x)=>$x%2==0);
+        $result2 = FunQuery::create($data)->filter(fn($x)=>$x%2==0)->skip(3);
+        $this->assertEqualsCanonicalizing([4,6,8], $result1->toArray());
+        $this->assertEqualsCanonicalizing([8], $result2->toArray());
+    }
 
 }

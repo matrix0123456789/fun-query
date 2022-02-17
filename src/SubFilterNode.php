@@ -14,11 +14,13 @@ class SubFilterNode implements \Iterator
      * @var callable
      */
     private $fun;
+    private bool $started;
 
     public function __construct(\Iterator $source, callable $fun)
     {
         $this->source = $source;
         $this->fun = $fun;
+        $this->started=false;
     }
 
     /**
@@ -41,7 +43,26 @@ class SubFilterNode implements \Iterator
      */
     public function next()
     {
+        $fun = $this->fun;
+        if(!$this->started){
+            while ($this->source->valid()) {
+                $current = $this->source->current();
+                if ($fun($this->source->current()))
+                    break;
+                else
+                    $this->source->next();
+            }
+            $this->started=true;
+        }
+
         $this->source->next();
+        while ($this->source->valid()) {
+            $current = $this->source->current();
+            if ($fun($this->source->current()))
+                return;
+            else
+                $this->source->next();
+        }
     }
 
     /**
@@ -80,5 +101,6 @@ class SubFilterNode implements \Iterator
     public function rewind()
     {
         $this->source->rewind();
+        $this->started=false;
     }
 }
