@@ -196,13 +196,31 @@ class PipelineNodeTest extends TestCase
         $this->expectExceptionMessage("Duplicated keys");
         $result = FunQuery::create($data)->toAssocArray(fn($x) => $x[0], fn($x) => $x[1]);
     }
+
     public function testFilterSkip()
     {
-        $data = [1,2,3,4,5,6,7,8];
-        $result1 = FunQuery::create($data)->skip(3)->filter(fn($x)=>$x%2==0);
-        $result2 = FunQuery::create($data)->filter(fn($x)=>$x%2==0)->skip(3);
-        $this->assertEqualsCanonicalizing([4,6,8], $result1->toArray());
+        $data = [1, 2, 3, 4, 5, 6, 7, 8];
+        $result1 = FunQuery::create($data)->skip(3)->filter(fn($x) => $x % 2 == 0);
+        $result2 = FunQuery::create($data)->filter(fn($x) => $x % 2 == 0)->skip(3);
+        $this->assertEqualsCanonicalizing([4, 6, 8], $result1->toArray());
         $this->assertEqualsCanonicalizing([8], $result2->toArray());
+    }
+
+    public function testGroupBy()
+    {
+        $data = [1, 2, 3, 4, 5, 6, 7, 8];
+        $wanted = [new \MKrawczyk\FunQuery\Group(1, [1, 3, 5, 7]), new \MKrawczyk\FunQuery\Group(0, [2, 4, 6, 8])];
+        $wanted2 = [false => [1, 3, 5, 7], true => [2, 4, 6, 8]];
+        $result = FunQuery::create($data)->groupBy(fn($x) => $x % 2);
+        $this->assertEqualsCanonicalizing($wanted, $result->toArray());
+    }
+
+    public function testGroupAssoc()
+    {
+        $data = [1, 2, 3, 4, 5, 6, 7, 8];
+        $wanted = [1 => [1, 3, 5, 7], 0 => [2, 4, 6, 8]];
+        $result = FunQuery::create($data)->groupAssoc(fn($x) => $x % 2);
+        $this->assertEqualsCanonicalizing($wanted, $result);
     }
 
 }

@@ -194,4 +194,25 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         }
         return $value;
     }
+
+    public function groupBy(\Closure $fun)
+    {
+        $items=[];
+        foreach ($this->groupAssoc($fun) as $key=>$values){
+            $items[]=new Group($key, $values);
+        }
+        return new ArrayNode($items);
+    }
+    public function groupAssoc(\Closure $fun)
+    {
+        $items=[];
+        foreach ($this as $x){
+            $key=$fun($x);
+            if(!isset($items[$key])){
+                $items[$key]=[];
+            }
+            $items[$key][]=$x;
+        }
+        return $items;
+    }
 }
