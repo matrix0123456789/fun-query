@@ -20,7 +20,7 @@ class IteratorAggregateNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator():\Traversable
+    public function getIterator(): \Traversable
     {
         return $this->source->getIterator();
     }

@@ -89,7 +89,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return new FlatNode(new MapNode($this, $fun));
     }
 
-    public function jsonSerialize():array
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
@@ -197,21 +197,22 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
 
     public function groupBy(\Closure $fun)
     {
-        $items=[];
-        foreach ($this->groupAssoc($fun) as $key=>$values){
-            $items[]=new Group($key, $values);
+        $items = [];
+        foreach ($this->groupAssoc($fun) as $key => $values) {
+            $items[] = new Group($key, $values);
         }
         return new ArrayNode($items);
     }
+
     public function groupAssoc(\Closure $fun)
     {
-        $items=[];
-        foreach ($this as $x){
-            $key=$fun($x);
-            if(!isset($items[$key])){
-                $items[$key]=[];
+        $items = [];
+        foreach ($this as $x) {
+            $key = $fun($x);
+            if (!isset($items[$key])) {
+                $items[$key] = [];
             }
-            $items[$key][]=$x;
+            $items[$key][] = $x;
         }
         return $items;
     }

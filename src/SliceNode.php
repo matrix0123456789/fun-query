@@ -13,7 +13,7 @@ class SliceNode extends FunQuery
     private int $skip;
     private ?int $limit;
 
-    public function __construct(FunQuery $source, int $skip=0, ?int $limit=null)
+    public function __construct(FunQuery $source, int $skip = 0, ?int $limit = null)
     {
         $this->source = $source;
         $this->skip = $skip;
@@ -23,12 +23,12 @@ class SliceNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator():Traversable
+    public function getIterator(): Traversable
     {
-        if($this->skip<0 || $this->limit < 0){
-            $array=$this->source->toArray();
-            return new \ArrayIterator(array_slice($array,$this->skip, $this->limit));
-        }else {
+        if ($this->skip < 0 || $this->limit < 0) {
+            $array = $this->source->toArray();
+            return new \ArrayIterator(array_slice($array, $this->skip, $this->limit));
+        } else {
             return new SubSliceNode($this->source->getIterator(), $this->skip, $this->limit);
         }
     }

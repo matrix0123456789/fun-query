@@ -21,7 +21,7 @@ class DistinctNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator():\ArrayIterator
+    public function getIterator(): \ArrayIterator
     {
         if ($this->result === null) {
             $sourceArray = $this->source->toArray();

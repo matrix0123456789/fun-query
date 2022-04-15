@@ -12,9 +12,9 @@ class SubSliceNode implements \Iterator
     private \Iterator $source;
     private int $skip;
     private ?int $limit;
-    private ?int $position=null;
+    private ?int $position = null;
 
-    public function __construct(\Iterator $source, int $skip=0, ?int $limit=0)
+    public function __construct(\Iterator $source, int $skip = 0, ?int $limit = 0)
     {
         $this->source = $source;
         $this->skip = $skip;
@@ -37,7 +37,7 @@ class SubSliceNode implements \Iterator
     {
         $this->init();
         $this->position++;
-        if($this->limit===null || $this->position<$this->limit) {
+        if ($this->limit === null || $this->position < $this->limit) {
             $this->source->next();
         }
 
@@ -58,7 +58,7 @@ class SubSliceNode implements \Iterator
     public function valid()
     {
         $this->init();
-        return $this->source->valid() && ($this->limit===null || $this->position<$this->limit);
+        return $this->source->valid() && ($this->limit === null || $this->position < $this->limit);
     }
 
     /**
@@ -67,14 +67,16 @@ class SubSliceNode implements \Iterator
     public function rewind()
     {
         $this->source->rewind();
-        $this->position=null;
+        $this->position = null;
     }
-    private function init(){
-        if($this->position===null){
-            for($i=0;$i<$this->skip;$i++){
+
+    private function init()
+    {
+        if ($this->position === null) {
+            for ($i = 0; $i < $this->skip; $i++) {
                 $this->source->next();
             }
-            $this->position=0;
+            $this->position = 0;
         }
     }
 }

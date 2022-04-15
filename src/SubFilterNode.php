@@ -20,7 +20,7 @@ class SubFilterNode implements \Iterator
     {
         $this->source = $source;
         $this->fun = $fun;
-        $this->started=false;
+        $this->started = false;
     }
 
     /**
@@ -44,7 +44,7 @@ class SubFilterNode implements \Iterator
     public function next()
     {
         $fun = $this->fun;
-        if(!$this->started){
+        if (!$this->started) {
             while ($this->source->valid()) {
                 $current = $this->source->current();
                 if ($fun($this->source->current()))
@@ -52,7 +52,7 @@ class SubFilterNode implements \Iterator
                 else
                     $this->source->next();
             }
-            $this->started=true;
+            $this->started = true;
         }
 
         $this->source->next();
@@ -101,6 +101,6 @@ class SubFilterNode implements \Iterator
     public function rewind()
     {
         $this->source->rewind();
-        $this->started=false;
+        $this->started = false;
     }
 }
