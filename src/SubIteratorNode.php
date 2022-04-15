@@ -24,7 +24,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->parent->getItem($this->position);
     }
@@ -32,7 +32,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function next()
+    public function next(): void
     {
         $this->position++;
     }
@@ -40,7 +40,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->position;
     }
@@ -48,7 +48,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->parent->hasItem($this->position);
     }
@@ -56,7 +56,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->position = 0;
     }

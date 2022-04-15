@@ -24,7 +24,7 @@ class SubMapNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current(): mixed
     {
         $fun = $this->fun;
         if ($this->valid())
@@ -36,7 +36,7 @@ class SubMapNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function next()
+    public function next(): void
     {
         $this->source->next();
     }
@@ -44,7 +44,7 @@ class SubMapNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->source->key();
     }
@@ -52,7 +52,7 @@ class SubMapNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->source->valid();
     }
@@ -60,7 +60,7 @@ class SubMapNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->source->rewind();
     }

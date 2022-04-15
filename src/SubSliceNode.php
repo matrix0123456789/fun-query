@@ -24,7 +24,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current(): mixed
     {
         $this->init();
         return $this->source->current();
@@ -33,7 +33,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function next()
+    public function next(): void
     {
         $this->init();
         $this->position++;
@@ -46,7 +46,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key()
+    public function key(): mixed
     {
         $this->init();
         return $this->source->key();
@@ -55,7 +55,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid(): bool
     {
         $this->init();
         return $this->source->valid() && ($this->limit === null || $this->position < $this->limit);
@@ -64,7 +64,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->source->rewind();
         $this->position = null;

@@ -26,7 +26,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current(): mixed
     {
         $fun = $this->fun;
         while ($this->source->valid()) {
@@ -41,7 +41,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function next()
+    public function next(): void
     {
         $fun = $this->fun;
         if (!$this->started) {
@@ -68,7 +68,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key()
+    public function key(): mixed
     {
         $fun = $this->fun;
         while ($this->source->valid()) {
@@ -83,7 +83,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid(): bool
     {
         $fun = $this->fun;
         while ($this->source->valid()) {
@@ -98,7 +98,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->source->rewind();
         $this->started = false;

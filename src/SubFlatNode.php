@@ -35,7 +35,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current(): mixed
     {
         if ($this->subSource == null)
             return null;
@@ -46,7 +46,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function next()
+    public function next(): void
     {
         if ($this->subSource != null) {
             $this->subSource->next();
@@ -60,7 +60,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key()
+    public function key(): mixed
     {
         if ($this->subSource)
             return [$this->source->key(), $this->subSource->key()];
@@ -71,7 +71,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function valid()
+    public function valid(): bool
     {
         return $this->source->valid() && $this->subSource != null && $this->subSource->valid();
     }
@@ -79,7 +79,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->source->rewind();
         $this->applyCurrent();
