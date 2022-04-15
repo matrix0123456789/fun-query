@@ -25,7 +25,7 @@ class SortNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator():\ArrayIterator
     {
         $fun = $this->fun;
         if ($this->result === null) {

@@ -23,7 +23,7 @@ class SliceNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator():Traversable
     {
         if($this->skip<0 || $this->limit < 0){
             $array=$this->source->toArray();

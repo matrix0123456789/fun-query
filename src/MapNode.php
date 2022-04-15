@@ -27,7 +27,7 @@ class MapNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator():SubMapNode
     {
         return new SubMapNode($this->source->getIterator(), $this->fun);
     }

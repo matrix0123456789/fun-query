@@ -89,7 +89,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return new FlatNode(new MapNode($this, $fun));
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize():array
     {
         return $this->toArray();
     }

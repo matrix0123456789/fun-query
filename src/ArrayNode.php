@@ -14,7 +14,7 @@ class ArrayNode extends FunQuery
         $this->source = $source;
     }
 
-    public function getIterator()
+    public function getIterator():\ArrayIterator
     {
         return new \ArrayIterator($this->source);
     }

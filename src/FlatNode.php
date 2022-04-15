@@ -22,7 +22,7 @@ class FlatNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator():SubFlatNode
     {
         return new SubFlatNode($this->source->getIterator());
     }

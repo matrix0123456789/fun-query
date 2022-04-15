@@ -19,7 +19,7 @@ class IteratorNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator():SubIteratorNode
     {
         return new SubIteratorNode($this);
     }

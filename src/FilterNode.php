@@ -24,7 +24,7 @@ class FilterNode extends FunQuery
     /**
      * @inheritDoc
      */
-    public function getIterator()
+    public function getIterator():SubFilterNode
     {
         return new SubFilterNode($this->source->getIterator(), $this->fun);
     }
