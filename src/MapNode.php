@@ -7,17 +7,26 @@ namespace MKrawczyk\FunQuery;
 use Exception;
 use Traversable;
 
+/**
+ * @template TSource
+ * @template TResult
+ * @template-extends FunQuery<TResult>
+ */
 class MapNode extends FunQuery
 {
     /**
-     * @var FunQuery
+     * @var FunQuery<TSource>
      */
     private FunQuery $source;
     /**
-     * @var callable
+     * @var callable(TSource):TResult
      */
     private $fun;
 
+    /**
+     * @param FunQuery<TSource> $source
+     * @param callable(TSource):TResult $fun
+     */
     public function __construct(FunQuery $source, callable $fun)
     {
         $this->source = $source;
@@ -25,7 +34,17 @@ class MapNode extends FunQuery
     }
 
     /**
-     * @inheritDoc
+     * @return TResult
+     */
+    public function x(){}
+        /**
+         * @return TSource
+         */
+        public function x2(){
+
+        }
+    /**
+     * @return SubMapNode<TSource, TResult>
      */
     public function getIterator(): SubMapNode
     {

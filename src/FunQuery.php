@@ -2,24 +2,28 @@
 
 namespace MKrawczyk\FunQuery;
 
+use Iterator;
+use IteratorAggregate;
 use MKrawczyk\FunQuery\Exceptions\FunQueryException;
+use Traversable;
 
 /**
  * @template T
  */
-abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
+abstract class FunQuery implements IteratorAggregate, \JsonSerializable
 {
     /**
-     * @param $init T[]|\IteratorAggregate<T>|\Iterator<T>
-     * @return FunQuery<T>
+     * @template T2
+     * @param T2 $init
+     * @return FunQuery<T2>
      */
     public static function create($init): FunQuery
     {
         if (is_array($init)) {
             return new ArrayNode($init);
-        } else if ($init instanceof \IteratorAggregate) {
+        } else if ($init instanceof IteratorAggregate) {
             return new IteratorAggregateNode($init);
-        } else if ($init instanceof \Iterator) {
+        } else if ($init instanceof Iterator) {
             return new IteratorNode($init);
         } else {
             throw new \InvalidArgumentException("Source has invalid type.");
@@ -42,6 +46,11 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return new SortNode($this, $fun);
     }
 
+    /**
+     * @template T2
+     * @param callable(T):T2 $fun
+     * @return FunQuery<T2>
+     */
     public function map(callable $fun)
     {
         return new MapNode($this, $fun);
@@ -95,7 +104,7 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
     }
 
     /**
-     * @return T[]
+     * @return array<mixed, T>
      */
     public function toArray(): array
     {
@@ -106,6 +115,15 @@ abstract class FunQuery implements \IteratorAggregate, \JsonSerializable
         return $result;
     }
 
+    /**
+     * @template TKey
+     * @template TValue
+     *
+     * @param callable(T):TKey $keyFun
+     * @param (callable(T):TValue)|null $valueFun
+     * @return array<TKey, TValue>
+     * @throws FunQueryException
+     */
     public function toAssocArray(callable $keyFun, ?callable $valueFun = null): array
     {
         $result = [];

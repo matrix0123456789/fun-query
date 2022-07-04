@@ -3,11 +3,15 @@
 
 namespace MKrawczyk\FunQuery;
 
-
+/**
+ * @template TSource
+ * @template TResult
+ * @template-implements \Iterator<TResult>
+ */
 class SubMapNode implements \Iterator
 {
     /**
-     * @var \Iterator
+     * @var \Iterator<TSource>
      */
     private \Iterator $source;
     /**
@@ -22,7 +26,7 @@ class SubMapNode implements \Iterator
     }
 
     /**
-     * @inheritDoc
+     * @return TResult
      */
     public function current(): mixed
     {
