@@ -46,4 +46,4 @@ It keeps the same number of items, but each item is replaced by what was returne
 #first()
 Returns first object. Throws exception if pipeline is empty.
 #firstOrNull()
-Returns first object or null if pipeline is empty.
+Returns first object or null if pipeline is empty. 
