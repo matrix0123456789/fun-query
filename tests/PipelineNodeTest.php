@@ -222,5 +222,23 @@ class PipelineNodeTest extends TestCase
         $result = FunQuery::create($data)->groupAssoc(fn($x) => $x % 2);
         $this->assertEqualsCanonicalizing($wanted, $result);
     }
+    public function testSortMany()
+    {
+        $data = [
+            ['name'=>'Oscar', 'surname'=>'Smith'],
+            ['name'=>'John', 'surname'=>'Smith'],
+            ['name'=>'Anna', 'surname'=>'Smith'],
+            ['name'=>'John', 'surname'=>'Doe'],
+        ];
+        $wanted = [
+
+            ['name'=>'John', 'surname'=>'Doe'],
+            ['name'=>'Anna', 'surname'=>'Smith'],
+            ['name'=>'John', 'surname'=>'Smith'],
+            ['name'=>'Oscar', 'surname'=>'Smith'],
+        ];
+        $result = FunQuery::create($data)->sort(fn($x) => $x['surname'], fn($x) => $x['name'])->toArray();
+        $this->assertEquals($wanted, $result);
+    }
 
 }
