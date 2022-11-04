@@ -3,23 +3,29 @@
 
 namespace MKrawczyk\FunQuery;
 
-
+/**
+ * @template T
+ * @template-extends FunQuery<T>
+ */
 class DistinctNode extends FunQuery
 {
     /**
-     * @var FunQuery
+     * @var FunQuery<T>
      */
     private FunQuery $source;
 
     private $result = null;
 
+    /**
+     * @param FunQuery<T> $source
+     */
     public function __construct(FunQuery $source)
     {
         $this->source = $source;
     }
 
     /**
-     * @inheritDoc
+     * @return \ArrayIterator<T>
      */
     public function getIterator(): \ArrayIterator
     {

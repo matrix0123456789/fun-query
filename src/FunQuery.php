@@ -14,7 +14,7 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
 {
     /**
      * @template T2
-     * @param T2 $init
+     * @param array<T2>|IteratorAggregateNode<T2>|IteratorNode<T2>|FunQuery<T2> $init
      * @return FunQuery<T2>
      */
     public static function create($init): FunQuery

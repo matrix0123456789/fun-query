@@ -4,7 +4,7 @@ namespace MKrawczyk\FunQuery;
 
 /**
  * @template T
- * @template-extends T
+ * @template-extends FunQuery<T>
  */
 class ArrayNode extends FunQuery
 {
