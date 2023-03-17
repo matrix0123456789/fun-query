@@ -39,11 +39,12 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
     }
 
     /**
-     * @return FunQuery<T>
+     * @param callable ...$funs
+     * @return FunQuery
      */
-    public function sort(callable $fun)
+    public function sort(...$funs)
     {
-        return new SortNode($this, $fun);
+        return new SortNode($this, ...$funs);
     }
 
     /**
@@ -233,5 +234,70 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
             $items[$key][] = $x;
         }
         return $items;
+    }
+
+    public function reverse()
+    {
+        return new ReverseNode($this);
+    }
+
+    public function execute()
+    {
+        return new ArrayNode($this->toArray());
+    }
+
+    /**
+     * @return T
+     */
+    public function min(?callable $fun = null)
+    {
+        $min = null;
+        $minF = null;
+        $any = false;
+        if ($fun == null)
+            $fun = fn($x) => $x;
+        foreach ($this as $item) {
+            if ($any) {
+                $f = $fun($item);
+                if ($f < $minF) {
+                    $min = $item;
+                    $minF = $f;
+                }
+            } else {
+                $any = true;
+                $min = $item;
+                $minF = $fun($item);
+            }
+        }
+        if (!$any)
+            throw new \Exception("Zero items");
+        else return $min;
+    }
+    /**
+     * @return T
+     */
+    public function max(?callable $fun = null)
+    {
+        $max = null;
+        $maxF = null;
+        $any = false;
+        if ($fun == null)
+            $fun = fn($x) => $x;
+        foreach ($this as $item) {
+            if ($any) {
+                $f = $fun($item);
+                if ($f > $maxF) {
+                    $max = $item;
+                    $maxF = $f;
+                }
+            } else {
+                $any = true;
+                $max = $item;
+                $maxF = $fun($item);
+            }
+        }
+        if (!$any)
+            throw new \Exception("Zero items");
+        else return $max;
     }
 }

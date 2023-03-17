@@ -13,13 +13,13 @@ class SortNode extends FunQuery
     /**
      * @var callable
      */
-    private $fun;
+    private $funs;
     private $result = null;
 
-    public function __construct(FunQuery $source, callable $fun)
+    public function __construct(FunQuery $source, ...$funs)
     {
         $this->source = $source;
-        $this->fun = $fun;
+        $this->funs = $funs;
     }
 
     /**
@@ -27,10 +27,17 @@ class SortNode extends FunQuery
      */
     public function getIterator(): \ArrayIterator
     {
-        $fun = $this->fun;
+        $funs = $this->funs;
         if ($this->result === null) {
             $sourceArray = $this->source->toArray();
-            usort($sourceArray, fn($a, $b) => $fun($a) <=> $fun($b));
+            usort($sourceArray, function ($a, $b) use ($funs) {
+                $res = 0;
+                foreach ($funs as $fun) {
+                    $res = $fun($a) <=> $fun($b);
+                    if ($res != 0) return $res;
+                }
+                return ($a) <=> ($b);
+            });
             $this->result = $sourceArray;
         }
         return new \ArrayIterator($this->result);

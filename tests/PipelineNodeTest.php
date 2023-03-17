@@ -222,23 +222,77 @@ class PipelineNodeTest extends TestCase
         $result = FunQuery::create($data)->groupAssoc(fn($x) => $x % 2);
         $this->assertEqualsCanonicalizing($wanted, $result);
     }
+
     public function testSortMany()
     {
         $data = [
-            ['name'=>'Oscar', 'surname'=>'Smith'],
-            ['name'=>'John', 'surname'=>'Smith'],
-            ['name'=>'Anna', 'surname'=>'Smith'],
-            ['name'=>'John', 'surname'=>'Doe'],
+            ['name' => 'Oscar', 'surname' => 'Smith'],
+            ['name' => 'John', 'surname' => 'Smith'],
+            ['name' => 'Anna', 'surname' => 'Smith'],
+            ['name' => 'John', 'surname' => 'Doe'],
         ];
         $wanted = [
 
-            ['name'=>'John', 'surname'=>'Doe'],
-            ['name'=>'Anna', 'surname'=>'Smith'],
-            ['name'=>'John', 'surname'=>'Smith'],
-            ['name'=>'Oscar', 'surname'=>'Smith'],
+            ['name' => 'John', 'surname' => 'Doe'],
+            ['name' => 'Anna', 'surname' => 'Smith'],
+            ['name' => 'John', 'surname' => 'Smith'],
+            ['name' => 'Oscar', 'surname' => 'Smith'],
         ];
         $result = FunQuery::create($data)->sort(fn($x) => $x['surname'], fn($x) => $x['name'])->toArray();
         $this->assertEquals($wanted, $result);
+    }
+
+    public function testReverse()
+    {
+        $data = [1, 2, 3, 4, 5, 6, 7, 8];
+        $wanted = [8, 7, 6, 5, 4, 3, 2, 1];
+        $result = FunQuery::create($data)->reverse()->toArray();
+        $this->assertEqualsCanonicalizing($wanted, $result);
+    }
+
+    public function testSortReverse()
+    {
+        $data = [5, 4, 9, 2];
+        $wanted = [9, 5, 4, 2];
+        $result = FunQuery::create($data)->sort()->reverse()->toArray();
+        $this->assertEqualsCanonicalizing($wanted, $result);
+    }
+
+    public function testSortReverseLazy()
+    {
+        $data = [5, 4, 9, 2];
+        $invoked = false;
+        $result = FunQuery::create($data)->sort(function ($x) use (&$invoked) {
+            $invoked = true;
+            return $x;
+        })->reverse();
+        $this->assertFalse($invoked);
+        $result->toArray();
+        $this->assertTrue($invoked);
+    }
+    public function testExecute()
+    {
+        $data = [5, 4, 9, 2];
+        $invoked = 0;
+        $query = FunQuery::create($data)->sort(function ($x) use (&$invoked) {
+            $invoked = true;
+            return $x;
+        });
+        $this->assertEquals($invoked, 0);
+        $query=$query->execute();
+        $this->assertEquals($invoked, 4);
+        $query=$query->execute();
+        $this->assertEquals($invoked, 4);
+        $query->toArray();
+        $this->assertEquals($invoked, 4);
+    }
+    public function testMinMax()
+    {
+        $data = [5, 4, 9, 2];
+        $query=FunQuery::create($data);
+        $this->assertEquals($query->min(), 2);
+        $this->assertEquals($query->max(), 9);
+
     }
 
 }
