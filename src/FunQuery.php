@@ -138,6 +138,28 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
         }
         return $result;
     }
+    /**
+     * @template TKey
+     * @template TValue
+     *
+     * @param callable(T):TKey $keyFun
+     * @param (callable(T):TValue)|null $valueFun
+     * @return array<TKey, TValue>
+     * @throws FunQueryException
+     */
+    public function toAssocArrayIgnoreDuplicates(callable $keyFun, ?callable $valueFun = null): array
+    {
+        $result = [];
+        foreach ($this as $element) {
+            $key = $keyFun($element);
+            if (isset($result[$key])) {
+                continue;
+            }
+            $value = $valueFun == null ? $element : $valueFun($element);
+            $result[$key] = $value;
+        }
+        return $result;
+    }
 
     public function some(?callable $fun = null)
     {
