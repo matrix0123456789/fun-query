@@ -13,9 +13,8 @@ jobs:
   test74:
     runs-on: ubuntu-latest
     steps:
-      - uses: php-actions/phpunit@v3
-        with:
-          php_version: '7.4'
+      - env:
+        - ACTION_PHP_VERSION: '7.4'
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
       - name: Run test suite
@@ -23,9 +22,8 @@ jobs:
   test80:
     runs-on: ubuntu-latest
     steps:
-      - uses: php-actions/phpunit@v3
-        with:
-          php_version: '8.0'
+      - env:
+          - ACTION_PHP_VERSION: '8.0'
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
       - name: Run test suite
@@ -33,9 +31,8 @@ jobs:
   test81:
     runs-on: ubuntu-latest
     steps:
-      - uses: php-actions/phpunit@v3
-        with:
-          php_version: '8.1'
+      - env:
+          - ACTION_PHP_VERSION: '8.1'
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
       - name: Run test suite
@@ -43,9 +40,8 @@ jobs:
   test82:
     runs-on: ubuntu-latest
     steps:
-      - uses: php-actions/phpunit@v3
-        with:
-          php_version: '8.2'
+      - env:
+          - ACTION_PHP_VERSION: '8.2'
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
       - name: Run test suite
