@@ -24,7 +24,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current(): mixed
+    public function current()
     {
         return $this->parent->getItem($this->position);
     }
@@ -40,7 +40,7 @@ class SubIteratorNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key(): mixed
+    public function key()
     {
         return $this->position;
     }
