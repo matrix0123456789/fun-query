@@ -14,4 +14,12 @@ class MapNodeTest extends TestCase
         $obj = new MapNode($array, fn($x) => $x * 2);
         $this->assertEqualsCanonicalizing([2, 10, 12, 18, 36], $obj->toArray());
     }
+
+    public function testEmpty()
+    {
+        $init = [];
+        $array = new ArrayNode($init);
+        $obj = new MapNode($array, fn($x) => $x * 2);
+        $this->assertEqualsCanonicalizing([], $obj->toArray());
+    }
 }

@@ -33,6 +33,7 @@ class SliceNodeTest extends TestCase
         $obj = new SliceNode($obj0, 0, 3);
         $this->assertEqualsCanonicalizing([0, 1, 2], $obj->toArray());
     }
+
     public function testGenerator2()
     {
         $init = $this->generator();
@@ -43,8 +44,9 @@ class SliceNodeTest extends TestCase
 
     private function generator()
     {
-        for ($i = 0;; $i++) {
+        for ($i = 0; ; $i++) {
             yield $i;
         }
     }
+
 }

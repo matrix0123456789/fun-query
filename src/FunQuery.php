@@ -19,7 +19,9 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
      */
     public static function create($init): FunQuery
     {
-        if (is_array($init)) {
+        if ($init instanceof FunQuery) {
+            return $init;
+        } else if (is_array($init)) {
             return new ArrayNode($init);
         } else if ($init instanceof IteratorAggregate) {
             return new IteratorAggregateNode($init);
@@ -29,6 +31,7 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
             throw new \InvalidArgumentException("Source has invalid type.");
         }
     }
+
 
     /**
      * @return FunQuery<T>
@@ -138,6 +141,7 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
         }
         return $result;
     }
+
     /**
      * @template TKey
      * @template TValue
@@ -161,13 +165,29 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
         return $result;
     }
 
-    public function some(?callable $fun = null)
+
+    /**
+     * @param ?callable(T):bool $fun
+     */
+    public function some(?callable $fun = null): bool
     {
         foreach ($this as $item) {
             if ($fun === null || $fun($item))
                 return true;
         }
         return false;
+    }
+
+    /**
+     * @param callable(T):bool $fun
+     */
+    public function every(callable $fun): bool
+    {
+        foreach ($this as $item) {
+            if (!$fun($item))
+                return false;
+        }
+        return true;
     }
 
     /**
@@ -292,9 +312,10 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
             }
         }
         if (!$any)
-            throw new \Exception("Zero items");
+            throw new FunQueryException("No items to find minimum, empty input.");
         else return $min;
     }
+
     /**
      * @return T
      */
@@ -319,7 +340,79 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
             }
         }
         if (!$any)
-            throw new \Exception("Zero items");
+            throw new FunQueryException("No items to find maximum, empty input.");
         else return $max;
     }
+
+    public function sum(?callable $fun = null)
+    {
+        if ($fun == null)
+            $fun = fn($x) => $x;
+        return $this->map($fun)->reduce(fn($a, $b) => $a + $b, 0);
+    }
+
+    public function average(?callable $fun = null)
+    {
+        return $this->sum($fun) / $this->count();
+    }
+
+
+    // aliases
+
+    /**
+     * @alias create
+     */
+    public static function from($init): FunQuery
+    {
+        return self::create($init);
+    }
+
+    /**
+     * @alias map
+     */
+    public function select(callable $fun): FunQuery
+    {
+        return $this->map($fun);
+    }
+
+    /**
+     * @alias filter
+     */
+    public function where(callable $fun): FunQuery
+    {
+        return $this->filter($fun);
+    }
+
+    /**
+     * @alias reduce
+     */
+    public function aggregate(callable $fun, ...$init)
+    {
+        return $this->reduce($fun, ...$init);
+    }
+
+    /**
+     * @alias reduce
+     */
+    public function fold(callable $fun, ...$init)
+    {
+        return $this->reduce($fun, ...$init);
+    }
+
+    /**
+     * @alias every
+     */
+    public function all(callable $fun)
+    {
+        return $this->every($fun);
+    }
+
+    /**
+     * @alias some
+     */
+    public function any(callable $fun)
+    {
+        return $this->some($fun);
+    }
+
 }

@@ -3,7 +3,7 @@
 use MKrawczyk\FunQuery\ArrayNode;
 use MKrawczyk\FunQuery\FunQuery;
 
-include_once __DIR__.'/../vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 
 class ArrayNodeTest extends PHPUnit\Framework\TestCase
@@ -18,13 +18,14 @@ class ArrayNodeTest extends PHPUnit\Framework\TestCase
         }
         $this->assertEqualsCanonicalizing($init, $result);
     }
+
     public function testToArray()
-{
-    $init = ['test', 'array', 'for', 'constructor'];
-    $obj = new ArrayNode($init);
-    $result =$obj->toArray();
-    $this->assertEqualsCanonicalizing($init, $result);
-}
+    {
+        $init = ['test', 'array', 'for', 'constructor'];
+        $obj = new ArrayNode($init);
+        $result = $obj->toArray();
+        $this->assertEqualsCanonicalizing($init, $result);
+    }
 
     public function testFactoryConstruct()
     {
@@ -32,4 +33,5 @@ class ArrayNodeTest extends PHPUnit\Framework\TestCase
         $obj = FunQuery::create($init);
         $this->assertInstanceOf(ArrayNode::class, $obj);
     }
+
 }

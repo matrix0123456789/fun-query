@@ -270,6 +270,7 @@ class PipelineNodeTest extends TestCase
         $result->toArray();
         $this->assertTrue($invoked);
     }
+
     public function testExecute()
     {
         $data = [5, 4, 9, 2];
@@ -279,19 +280,46 @@ class PipelineNodeTest extends TestCase
             return $x;
         });
         $this->assertEquals($invoked, 0);
-        $query=$query->execute();
+        $query = $query->execute();
         $this->assertEquals($invoked, 4);
-        $query=$query->execute();
+        $query = $query->execute();
         $this->assertEquals($invoked, 4);
         $query->toArray();
         $this->assertEquals($invoked, 4);
     }
+
     public function testMinMax()
     {
         $data = [5, 4, 9, 2];
-        $query=FunQuery::create($data);
+        $query = FunQuery::create($data);
         $this->assertEquals($query->min(), 2);
         $this->assertEquals($query->max(), 9);
+
+    }
+
+    public function testMinEmpty()
+    {
+        $data = [];
+        $query = FunQuery::create($data);
+        $this->expectException("MKrawczyk\FunQuery\Exceptions\FunQueryException");
+        $this->expectExceptionMessage("No items to find minimum, empty input.");
+        $query->min();
+    }
+    public function testMaxEmpty()
+    {
+        $data = [];
+        $query = FunQuery::create($data);
+        $this->expectException("MKrawczyk\FunQuery\Exceptions\FunQueryException");
+        $this->expectExceptionMessage("No items to find maximum, empty input.");
+        $query->max();
+    }
+
+    public function testMinMaxWithFunction()
+    {
+        $data = [5, 4, 9, 2];
+        $query = FunQuery::create($data);
+        $this->assertEquals($query->min(fn($x) => -$x), 9);
+        $this->assertEquals($query->max(fn($x) => -$x), 2);
 
     }
 

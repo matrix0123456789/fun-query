@@ -10,9 +10,18 @@ class ReverseNodeTest extends TestCase
 {
     public function testAll()
     {
-        $init = ['a','b','c','d'];
+        $init = ['a', 'b', 'c', 'd'];
         $array = new ArrayNode($init);
         $obj = new ReverseNode($array);
-        $this->assertEqualsCanonicalizing(['d','c','b','a'], $obj->toArray());
+        $this->assertEqualsCanonicalizing(['d', 'c', 'b', 'a'], $obj->toArray());
     }
+
+    public function testEmpty()
+    {
+        $init = [];
+        $array = new ArrayNode($init);
+        $obj = new ReverseNode($array);
+        $this->assertEqualsCanonicalizing([], $obj->toArray());
+    }
+
 }

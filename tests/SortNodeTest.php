@@ -16,4 +16,13 @@ class SortNodeTest extends TestCase
         $obj2 = new SortNode($array, fn($x) => \abs($x));
         $this->assertEqualsCanonicalizing([1, -3, 5, 9], $obj2->toArray());
     }
+
+    public function testEmpty()
+    {
+        $init = [];
+        $array = new ArrayNode($init);
+        $obj = new SortNode($array, fn($x) => $x);
+        $this->assertEqualsCanonicalizing([], $obj->toArray());
+    }
+
 }

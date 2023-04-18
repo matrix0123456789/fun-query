@@ -23,4 +23,13 @@ class FlatNodeTest extends TestCase
         $obj = new FlatNode($array);
         $this->assertEqualsCanonicalizing([], $obj->toArray());
     }
+
+    public function testNested()
+    {
+        $init = [[1, 2, 3], [[4, 5, 6]]];
+        $array = new ArrayNode($init);
+        $obj = new FlatNode($array);
+        $this->assertEqualsCanonicalizing([1, 2, 3, [4, 5, 6]], $obj->toArray());
+    }
+
 }

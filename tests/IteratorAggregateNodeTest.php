@@ -40,4 +40,5 @@ class IteratorAggregateNodeTest extends TestCase
         $expect = ["one", "two", "three", "four"];
         $this->assertEqualsCanonicalizing($expect, $node->toArray());
     }
+
 }
