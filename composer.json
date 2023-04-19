@@ -6,7 +6,9 @@
             "name": "Mateusz Krawczyk"
         }
     ],
-    "minimum-stability": "dev",
+    "keywords": ["utility", "functional programming","functional", "php", "library", "redcue", "map", "filter", "collection", "iterator", "lazy evaluation"],
+    "minimum-stability": "stable",
+    "type": "library",
     "require": {
         "php": ">=7.4.0",
         "ext-json": "*"
