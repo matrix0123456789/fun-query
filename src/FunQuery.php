@@ -422,4 +422,12 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
     {
         return $this->distinct();
     }
+
+    public function concat(iterable $x)
+    {
+        if(! $x instanceof FunQuery)
+            $x = FunQuery::from($x);
+
+        return new ConcatNode($this, $x);
+    }
 }

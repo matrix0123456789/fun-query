@@ -129,14 +129,14 @@ class PipelineNodeTest extends TestCase
     public function testReduce()
     {
         $input = ['a', 'b', 'c', 'd'];
-        $result = FunQuery::create($input)->reduce(fn($a, $x) => $a . $x);
+        $result = FunQuery::create($input)->reduce(fn($a, $x) => $a.$x);
         $this->assertEquals('abcd', $result);
     }
 
     public function testReduceWithInit()
     {
         $input = ['a', 'b', 'c', 'd'];
-        $result = FunQuery::create($input)->reduce(fn($a, $x) => $a . $x, '012');
+        $result = FunQuery::create($input)->reduce(fn($a, $x) => $a.$x, '012');
         $this->assertEquals('012abcd', $result);
     }
 
@@ -144,13 +144,13 @@ class PipelineNodeTest extends TestCase
     {
         $this->expectException("MKrawczyk\FunQuery\Exceptions\FunQueryException");
         $this->expectExceptionMessage("No items to reduce, empty input.");
-        $result = FunQuery::create([])->reduce(fn($a, $x) => $a . $x);
+        $result = FunQuery::create([])->reduce(fn($a, $x) => $a.$x);
     }
 
     public function testReduceEmptyWithInit()
     {
         $init = "init value";
-        $result = FunQuery::create([])->reduce(fn($a, $x) => $a . $x, $init);
+        $result = FunQuery::create([])->reduce(fn($a, $x) => $a.$x, $init);
         $this->assertEquals($init, $result);
     }
 
@@ -305,6 +305,7 @@ class PipelineNodeTest extends TestCase
         $this->expectExceptionMessage("No items to find minimum, empty input.");
         $query->min();
     }
+
     public function testMaxEmpty()
     {
         $data = [];
@@ -321,6 +322,13 @@ class PipelineNodeTest extends TestCase
         $this->assertEquals($query->min(fn($x) => -$x), 9);
         $this->assertEquals($query->max(fn($x) => -$x), 2);
 
+    }
+
+    public function testConcat()
+    {
+        $data = [5, 4, 9, 2];
+        $query = FunQuery::create($data);
+        $this->assertEquals($query->concat([1, 2, 3])->toArray(), [5, 4, 9, 2, 1, 2, 3]);
     }
 
 }
