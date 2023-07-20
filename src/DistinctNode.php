@@ -31,7 +31,7 @@ class DistinctNode extends FunQuery
     {
         if ($this->result === null) {
             $sourceArray = $this->source->toArray();
-            $this->result = array_unique($sourceArray);
+            $this->result = array_unique($sourceArray,SORT_REGULAR);
         }
         return new \ArrayIterator($this->result);
     }

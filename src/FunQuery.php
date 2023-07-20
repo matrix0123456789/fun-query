@@ -415,4 +415,11 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
         return $this->some($fun);
     }
 
+    /**
+     * @alias distinct
+     */
+    public function unique(): FunQuery
+    {
+        return $this->distinct();
+    }
 }
