@@ -24,7 +24,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current(): mixed
     {
         $this->init();
         return $this->source->current();
@@ -46,7 +46,7 @@ class SubSliceNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key()
+    public function key(): mixed
     {
         $this->init();
         return $this->source->key();
