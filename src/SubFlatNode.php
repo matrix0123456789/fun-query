@@ -24,6 +24,12 @@ class SubFlatNode implements \Iterator
     private function applyCurrent()
     {
         $current = $this->source->current();
+        while ($current == null) {
+            $this->source->next();
+            if (!$this->source->valid())
+                break;
+            $current = $this->source->current();
+        }
         if ($current == null)
             $this->subSource = null;
         else if ($current instanceof Traversable)

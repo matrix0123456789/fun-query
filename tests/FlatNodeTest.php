@@ -32,4 +32,12 @@ class FlatNodeTest extends TestCase
         $this->assertEqualsCanonicalizing([1, 2, 3, [4, 5, 6]], $obj->toArray());
     }
 
+    public function testSomeEmpty()
+    {
+        $init = [[], [], [1, 2, 3], [], [4, 5, 6], []];
+        $array = new ArrayNode($init);
+        $obj = new FlatNode($array);
+        $this->assertEqualsCanonicalizing([1, 2, 3, 4, 5, 6], $obj->toArray());
+    }
+
 }

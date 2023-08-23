@@ -16,7 +16,7 @@ class myData implements IteratorAggregate
         $this->property4 = "four";
     }
 
-    public function getIterator()
+    public function getIterator():Traversable
     {
         return new ArrayIterator($this);
     }
