@@ -330,5 +330,17 @@ class PipelineNodeTest extends TestCase
         $query = FunQuery::create($data);
         $this->assertEquals($query->concat([1, 2, 3])->toArray(), [5, 4, 9, 2, 1, 2, 3]);
     }
+    public function testUnique()
+    {
+        $data = [1,2,1,3,1,4];
+        $query = FunQuery::create($data);
+        $this->assertEquals($query->unique()->toArray(), [1,2,3,4]);
+    }
+    public function testUniqueFunction()
+    {
+        $data = [1,2,1,3,1,4];
+        $query = FunQuery::create($data);
+        $this->assertEquals($query->unique(fn($x)=>$x%2)->toArray(), [1,2]);
+    }
 
 }

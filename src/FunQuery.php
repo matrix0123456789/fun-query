@@ -92,9 +92,9 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
     /**
      * @return FunQuery<T>
      */
-    public function distinct()
+    public function distinct(callable $fun=null)
     {
-        return new DistinctNode($this);
+        return new DistinctNode($this, $fun);
     }
 
     public function flatMap(callable $fun)
@@ -418,9 +418,9 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
     /**
      * @alias distinct
      */
-    public function unique(): FunQuery
+    public function unique(callable $fun=null): FunQuery
     {
-        return $this->distinct();
+        return $this->distinct($fun);
     }
 
     public function concat(iterable $x)

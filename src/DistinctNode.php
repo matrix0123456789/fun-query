@@ -19,9 +19,10 @@ class DistinctNode extends FunQuery
     /**
      * @param FunQuery<T> $source
      */
-    public function __construct(FunQuery $source)
+    public function __construct(FunQuery $source, callable $fun = null)
     {
         $this->source = $source;
+        $this->fun = $fun;
     }
 
     /**
@@ -30,8 +31,20 @@ class DistinctNode extends FunQuery
     public function getIterator(): \ArrayIterator
     {
         if ($this->result === null) {
-            $sourceArray = $this->source->toArray();
-            $this->result = array_unique($sourceArray,SORT_REGULAR);
+            if($this->fun === null) {
+                $sourceArray = $this->source->toArray();
+                $this->result = array_unique($sourceArray, SORT_REGULAR);
+            } else {
+                $map= [];
+                $fun=$this->fun;
+                foreach ($this->source as $x){
+                    $key=$fun($x);
+                    if(!isset($map[$key])){
+                        $map[$key]=$x;
+                    }
+                }
+                $this->result = array_values($map);
+            }
         }
         return new \ArrayIterator($this->result);
     }
