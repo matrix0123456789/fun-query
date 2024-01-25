@@ -62,6 +62,9 @@ class SubConcatNode implements \Iterator
     {
         $this->source1->rewind();
         $this->source2->rewind();
-        $this->currentSource = $this->source1;
+        if ($this->source1->valid())
+            $this->currentSource = $this->source1;
+        else
+            $this->currentSource = $this->source2;
     }
 }

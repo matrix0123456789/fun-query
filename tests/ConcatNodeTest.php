@@ -19,4 +19,14 @@ class ConcatNodeTest extends TestCase
         $this->assertEqualsCanonicalizing([1, 2, 3, 4, 'a', 'b'], $obj->toArray());
     }
 
+    public function testToEmptyAll()
+    {
+        $init1 = [];
+        $array1 = new ArrayNode($init1);
+        $init2 = [1,2,3];
+        $array2 = new ArrayNode($init2);
+        $obj = new ConcatNode($array1, $array2);
+        $this->assertEqualsCanonicalizing([1, 2, 3], $obj->toArray());
+    }
+
 }
