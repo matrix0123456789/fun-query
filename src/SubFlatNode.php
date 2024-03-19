@@ -4,6 +4,8 @@
 namespace MKrawczyk\FunQuery;
 
 
+use Traversable;
+
 class SubFlatNode implements \Iterator
 {
     /**
@@ -11,11 +13,14 @@ class SubFlatNode implements \Iterator
      */
     private \Iterator $source;
     /**
-     * @var ?\Iterator
+     * @var ?\Iterator|\Traversable
      */
-    private ?\Iterator $subSource;
+    private $subSource;
 
-    public function __construct(\Iterator $source)
+    /**
+     * @param \Iterator|\Traversable $source
+     */
+    public function __construct($source)
     {
         $this->source = $source;
         $this->applyCurrent();
@@ -41,7 +46,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current() 
+    public function current()
     {
         if ($this->subSource == null)
             return null;
@@ -66,7 +71,7 @@ class SubFlatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key() 
+    public function key()
     {
         if ($this->subSource)
             return [$this->source->key(), $this->subSource->key()];

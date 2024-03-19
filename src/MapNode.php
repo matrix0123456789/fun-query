@@ -34,16 +34,6 @@ class MapNode extends FunQuery
     }
 
     /**
-     * @return TResult
-     */
-    public function x(){}
-        /**
-         * @return TSource
-         */
-        public function x2(){
-
-        }
-    /**
      * @return SubMapNode<TSource, TResult>
      */
     public function getIterator(): SubMapNode

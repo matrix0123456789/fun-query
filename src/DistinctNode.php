@@ -15,6 +15,10 @@ class DistinctNode extends FunQuery
     private FunQuery $source;
 
     private $result = null;
+    /**
+     * @var callable|null
+     */
+    private $fun;
 
     /**
      * @param FunQuery<T> $source
