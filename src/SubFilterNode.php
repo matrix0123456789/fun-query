@@ -26,7 +26,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current(): mixed
+    public function current() 
     {
         $fun = $this->fun;
         while ($this->source->valid()) {
@@ -68,7 +68,7 @@ class SubFilterNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key(): mixed
+    public function key() 
     {
         $fun = $this->fun;
         while ($this->source->valid()) {
