@@ -1,6 +1,7 @@
 {
     "name": "mkrawczyk/funquery",
     "license": "MIT",
+    "description": "Functional programming library for PHP",
     "authors": [
         {
             "name": "Mateusz Krawczyk"
