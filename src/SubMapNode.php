@@ -28,7 +28,7 @@ class SubMapNode implements \Iterator
     /**
      * @return TResult
      */
-    public function current() 
+    public function current() :mixed
     {
         $fun = $this->fun;
         if ($this->valid())
@@ -48,7 +48,7 @@ class SubMapNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key() 
+    public function key():mixed
     {
         return $this->source->key();
     }

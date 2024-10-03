@@ -21,7 +21,7 @@ class SubConcatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function current()
+    public function current():mixed
     {
         return $this->currentSource->current();
     }
@@ -42,7 +42,7 @@ class SubConcatNode implements \Iterator
     /**
      * @inheritDoc
      */
-    public function key() 
+    public function key() :mixed
     {
         return $this->currentSource->key();
     }
