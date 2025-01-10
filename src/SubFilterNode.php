@@ -36,6 +36,7 @@ class SubFilterNode implements \Iterator
             else
                 $this->source->next();
         }
+        return null;
     }
 
     /**
@@ -78,6 +79,7 @@ class SubFilterNode implements \Iterator
             else
                 $this->source->next();
         }
+        return null;
     }
 
     /**
