@@ -23,7 +23,7 @@ class DistinctNode extends FunQuery
     /**
      * @param FunQuery<T> $source
      */
-    public function __construct(FunQuery $source, callable $fun = null)
+    public function __construct(FunQuery $source, ?callable $fun = null)
     {
         $this->source = $source;
         $this->fun = $fun;
