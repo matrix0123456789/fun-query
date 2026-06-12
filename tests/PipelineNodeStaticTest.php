@@ -38,12 +38,12 @@ class PipelineNodeStaticTest extends TestCase
 //        $this->assertTrue($result);
 //    }
 //
-//    public function testSomeFalse()
-//    {
-//        $original = [2, 4, 6, 8];
-//        $result = FQ::some(fn($x) => $x == 3, $original);
-//        $this->assertFalse($result);
-//    }
+    public function testSomeFalse()
+    {
+        $original = [2, 4, 6, 8];
+        $result =$original |> FQ::some(fn($x) => $x == 3, ...);
+        $this->assertFalse($result);
+    }
 
     public function testSomeEmpty()
     {
