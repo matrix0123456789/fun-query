@@ -55,7 +55,7 @@ class PipelineNodeStaticTest extends TestCase
     public function testSomeNoEmpty()
     {
         $original = [1, 1, 1, 1];
-        $result = $original|>FQ::some($$);
+        $result = $original|>FQ::some(...);
         $this->assertTrue($result);
     }
 //
