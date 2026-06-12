@@ -34,6 +34,8 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
 
 
     /**
+     *
+     * @param callable(T):bool $fun
      * @return FunQuery<T>
      */
     public function filter(callable $fun)
@@ -43,7 +45,7 @@ abstract class FunQuery implements IteratorAggregate, \JsonSerializable
 
     /**
      * @param callable ...$funs
-     * @return FunQuery
+     * @return FunQuezamimplementuj wszystkie publcizne metody kalsy FunQuery ajko statyczne metody klasy FQ, tak że ostatni parametr jest brany do FunQuery::create (na przykłądzie mtod map i filterry
      */
     public function sort(...$funs)
     {
